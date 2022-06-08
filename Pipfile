@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 autopep8 = "*"
 djangorestframework = "*"
 pyjwt = "*"
+django-environ = "*"
 
 [dev-packages]
 
