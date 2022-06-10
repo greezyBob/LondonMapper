@@ -2,8 +2,11 @@
   box-sizing: border-box;
 }
 
+
+
 body {
   height: 100vh;
+  margin: 0;
 }
 
 #root{
@@ -20,4 +23,37 @@ body {
     bottom: 0;
     width: 100%;
     height: 100%;
+}
+
+.wrapper {
+  background-color: black;
+  height: 100%;
+}
+
+.tube {
+  color: white;
+  width: 25px;
+  background-size: cover;
+  background-image: url('./images/tube.png');
+}
+
+.bus {
+  color: white;
+  width: 25px;
+  background-size: cover;
+  background-image: url('./images//bus.png');
+}
+
+.walking {
+  color: white;
+  width: 25px;
+  background-size: cover;
+  background-image: url('./images/walking.png');
+}
+
+.national-rail {
+  color: white;
+  width: 25px;
+  background-size: cover;
+  background-image: url('./images/walking.png');
 }

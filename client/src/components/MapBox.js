@@ -2,16 +2,16 @@ import React, { useRef, useEffect, useState } from 'react'
 import mapboxgl from '!mapbox-gl'
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API
 import 'mapbox-gl/dist/mapbox-gl.css'
-import Box from '@mui/material/Box'
+
 
 
 const MapBox = () => {
 
   const mapContainer = useRef(null)
   const map = useRef(null)
-  const [lng, setLng] = useState(-70.9)
-  const [lat, setLat] = useState(42.35)
-  const [zoom, setZoom] = useState(9)
+  const [lng, setLng] = useState(-0.1253)
+  const [lat, setLat] = useState(51.5072)
+  const [zoom, setZoom] = useState(10.32)
 
   useEffect(() => {
     if (map.current) return // initialize map only once

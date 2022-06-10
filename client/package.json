@@ -5,7 +5,10 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
+    "@react-three/drei": "^9.13.0",
+    "@react-three/fiber": "^8.0.22",
     "axios": "^0.25.0",
     "eslint-plugin-react": "^7.30.0",
     "mapbox-gl": "^2.8.2",
@@ -13,7 +16,9 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
-    "sass": "^1.52.2"
+    "sass": "^1.52.2",
+    "three": "^0.141.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

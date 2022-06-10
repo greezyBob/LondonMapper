@@ -1,27 +1,36 @@
-import { useEffect } from 'react'
-import axios from 'axios'
+import React, { Suspense, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+
+//Components
+import NavBar from './components/common/NavBar'
+import Home from './components/Home'
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
 import MapBox from './components/MapBox'
 
-import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
+
+
+
 
 const App = () => {
 
 
-
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await axios.get('/api/products/') // * <-- replace with your endpoint
-  //     console.log(data)
-  //   }
-  //   getData()
-  // })
-
   return (
-    <Container  >
-    </Container>
+    <Box>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+
+        </Routes>
+      </BrowserRouter>
+    </Box>
+
   )
 }
 
