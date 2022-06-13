@@ -5,7 +5,20 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 
 
-const MapBox = () => {
+const MapBox = ({ journeys, journeyHover }) => {
+
+
+  const lineData = []
+
+  const lineColours = {
+    'walking': '#90be6d',
+    'tube': '#577590',
+    'bus': '#f94144',
+    'national-rail': '#cb997e',
+    'tflrail': '#577590',
+    'dlr': '#219ebc',
+    'tram': '#023047',
+  }
 
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -24,10 +37,57 @@ const MapBox = () => {
   })
 
 
+  if (journeyHover && journeys[journeyHover].legs) {
+    journeys[journeyHover].legs.forEach(leg => {
+      const line = JSON.parse(leg.path.lineString)
+      const reverseLine = line.map(coords => coords.reverse())
+      lineData.push(reverseLine)
+    })
+  }
+
+
+  useEffect(() => {
+    if (!journeyHover) return
+    for (const [key, value] of Object.entries(map.current.style._layers)) {
+      parseFloat(key) ? map.current.removeLayer(value.id) : null
+    }
+    lineData.forEach((points, i) => {
+      if (map.current.getSource(points[0][0])) {
+        map.current.removeSource(points[0][0])
+      }
+      map.current.addSource(points[0][0], {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': points,
+          },
+        },
+      })
+      map.current.addLayer({
+        'id': `${points[0][0]}`,
+        'type': 'line',
+        'source': `${points[0][0]}`,
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round',
+        },
+        'paint': {
+          'line-color': lineColours[journeys[journeyHover].legs[i].mode.id],
+          'line-width': 6,
+          'line-opacity': 0.8,
+        },
+      })
+    })
+  }, [journeyHover])
 
   return (
 
-    <div ref={mapContainer} className="map-container"></div>
+    <div ref={mapContainer} className="map-container">
+
+    </div>
 
   )
 }

@@ -21,6 +21,8 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import CircleIcon from '@mui/icons-material/Circle'
+
 
 
 
@@ -45,6 +47,13 @@ const Home = () => {
   const [endArray, setEndArray] = useState()
   const [endCoords, setEndCoords] = useState()
 
+  const [startEndGeoJSON, setStartEndGeoJSON] = useState({
+    type: 'FeaturesCollection',
+    features: [],
+  })
+
+
+  const [journeyHover, setJourneyHover] = useState()
 
   //tfl state
   const [journeys, setJourneys] = useState()
@@ -116,6 +125,12 @@ const Home = () => {
     setEndCoords(`${endLng},${endLat}`)
   }
 
+
+  const handleMouseOver = (e) => {
+    setJourneyHover(e.target.id)
+    console.log(e.target.id)
+  }
+
   return (
     <Container maxWidth='lg' sx={{ mt: 7 }}>
       <Box sx={{ display: 'flex' }}>
@@ -151,40 +166,50 @@ const Home = () => {
               Go!
             </Button>
           </Stack>
-          <MapBox />
+          <MapBox journeys={journeys} journeyHover={journeyHover} />
         </Box>
         <Stack justifyContent="flex-start" sx={{ width: '100%' }}
           spacing={1}>
           {journeys && journeys.map((journey, index) => {
             return (
-              <Accordion key={index} sx={{ p: 1 }}>
+              <Accordion key={index} sx={{ p: 1 }} id={index} onMouseEnter={e => handleMouseOver(e)}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>
-                    Total duration: {journey.duration} mins
-                  </Typography>
-                  <Typography>
-                    Total cost: {journey.fare ? `£${journey.fare.totalCost / 100}` : 'N/A'}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }} >
+                    <Typography sx={{ fontWeight: 600, fontSize: 20 }}>
+                      {journey.duration} mins
+                    </Typography>
+                    <CircleIcon sx={{ mx: 2, width: '10px' }} />
+                    <Typography sx={{ fontWeight: 600, fontSize: 20 }}>
+                      {journey.fare ? `£${journey.fare.totalCost.toString().slice(0, -2)}.${journey.fare.totalCost.toString().slice(-2)}` : '£0.00'}
+                    </Typography>
+                  </Box>
                 </AccordionSummary>
-
-                <Stack direction='row' alignItems='center' spacing={1}>
-                  {journey.legs.map((leg, i) => {
-                    return (
-                      <>
-                        <Typography key={uuidv4()}>
-                          <div className={leg.mode.name}>.
-                          </div>
-                        </Typography>
-                        {i + 1 !== journey.legs.length && <ArrowRightAltIcon />}
-                      </>
-                    )
-                  })}
-                </Stack>
-
+                <AccordionDetails>
+                  <Stack direction='row' alignItems='center' spacing={1}>
+                    {journey.legs.map((leg, i) => {
+                      return (
+                        <Box key={uuidv4()} display='flex'>
+                          <Typography className={leg.mode.name}>.
+                          </Typography>
+                          {i + 1 !== journey.legs.length && <ArrowRightAltIcon sx={{ ml: 1 }} />}
+                        </Box>
+                      )
+                    })}
+                  </Stack>
+                  <ol>
+                    <Typography>
+                      {journey.legs.map((leg, i) => {
+                        return (
+                          <li key={uuidv4()}>{leg.instruction.summary}</li>
+                        )
+                      })}
+                    </Typography>
+                  </ol>
+                </AccordionDetails>
               </Accordion>
             )
           })}
