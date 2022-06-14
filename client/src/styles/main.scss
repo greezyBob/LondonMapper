@@ -30,7 +30,7 @@ body {
   height: 100%;
 }
 
-.tube {
+.tube, .overground {
   color: white;
   width: 25px;
   background-size: cover;
@@ -56,4 +56,9 @@ body {
   width: 25px;
   background-size: cover;
   background-image: url('./images/national-rail.png');
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
 }

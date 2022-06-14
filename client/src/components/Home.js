@@ -47,10 +47,8 @@ const Home = () => {
   const [endArray, setEndArray] = useState()
   const [endCoords, setEndCoords] = useState()
 
-  const [startEndGeoJSON, setStartEndGeoJSON] = useState({
-    type: 'FeaturesCollection',
-    features: [],
-  })
+ 
+  const [mapBounds, setMapBounds] = useState()
 
 
   const [journeyHover, setJourneyHover] = useState()
@@ -93,11 +91,10 @@ const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios.get('https://api.tfl.gov.uk/Journey/JourneyResults/51.55062825,-0.140746/to/51.513744,-0.09837950000000001')
+      const { data } = await axios.get(`https://api.tfl.gov.uk/Journey/JourneyResults/${startCoords}/to/${endCoords}`)
       setJourneys(data.journeys)
-      console.log(data.journeys)
     }
-    // if (!endCoords) return
+    if (!endCoords) return
     getData()
   }, [endCoords])
 
@@ -107,28 +104,29 @@ const Home = () => {
     let startLat
     let endLng
     let endLat
+    const tempBounds = []
     startArray.forEach(item => {
       if (item.place_name === startLocation) {
         startLng = item.center[1]
         startLat = item.center[0]
+        tempBounds.push(item.center)
       }
     })
     endArray.forEach(item => {
       if (item.place_name === endLocation) {
         endLng = item.center[1]
         endLat = item.center[0]
+        tempBounds.push(item.center)
       }
     })
-    console.log(startLng, startLat)
-    console.log(endLng, endLat)
     setStartCoords(`${startLng},${startLat}`)
     setEndCoords(`${endLng},${endLat}`)
+    setMapBounds(tempBounds)
   }
 
 
   const handleMouseOver = (e) => {
     setJourneyHover(e.target.id)
-    console.log(e.target.id)
   }
 
   return (
@@ -142,8 +140,7 @@ const Home = () => {
                 onChange={(event, newValue) => {
                   setStartLocation(newValue)
                 }}
-                disablePortal
-                id="combo-box-demo"
+                disablePortal                
                 options={startLocationOptions}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} value={startSearch} onChange={handleStartChange} label="Start..." />}
@@ -155,8 +152,7 @@ const Home = () => {
                 onChange={(event, newValue) => {
                   setEndLocation(newValue)
                 }}
-                disablePortal
-                id="combo-box-demo"
+                disablePortal                
                 options={endLocationOptions}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} value={endSearch} onChange={handleEndChange} label="End..." />}
@@ -166,7 +162,7 @@ const Home = () => {
               Go!
             </Button>
           </Stack>
-          <MapBox journeys={journeys} journeyHover={journeyHover} />
+          <MapBox journeys={journeys} journeyHover={journeyHover} mapBounds={mapBounds} />
         </Box>
         <Stack justifyContent="flex-start" sx={{ width: '100%' }}
           spacing={1}>

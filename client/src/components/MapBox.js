@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 
 
-const MapBox = ({ journeys, journeyHover }) => {
+const MapBox = ({ journeys, journeyHover, mapBounds }) => {
 
 
   const lineData = []
@@ -18,6 +18,7 @@ const MapBox = ({ journeys, journeyHover }) => {
     'tflrail': '#577590',
     'dlr': '#219ebc',
     'tram': '#023047',
+    'overground': '#577590',
   }
 
   const mapContainer = useRef(null)
@@ -37,7 +38,7 @@ const MapBox = ({ journeys, journeyHover }) => {
   })
 
 
-  if (journeyHover && journeys[journeyHover].legs) {
+  if (parseInt(journeyHover)) {
     journeys[journeyHover].legs.forEach(leg => {
       const line = JSON.parse(leg.path.lineString)
       const reverseLine = line.map(coords => coords.reverse())
@@ -45,9 +46,8 @@ const MapBox = ({ journeys, journeyHover }) => {
     })
   }
 
-
   useEffect(() => {
-    if (!journeyHover) return
+    if (!journeyHover || !parseInt(journeyHover)) return
     for (const [key, value] of Object.entries(map.current.style._layers)) {
       parseFloat(key) ? map.current.removeLayer(value.id) : null
     }
@@ -83,10 +83,20 @@ const MapBox = ({ journeys, journeyHover }) => {
     })
   }, [journeyHover])
 
+  useEffect(() => {
+    if (!mapBounds) return
+    map.current.fitBounds(mapBounds, {
+      padding: 50,
+    })
+
+  },[mapBounds])
+
+
+
+
   return (
 
     <div ref={mapContainer} className="map-container">
-
     </div>
 
   )
