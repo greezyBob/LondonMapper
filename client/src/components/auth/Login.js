@@ -52,7 +52,6 @@ export default function Login({ logOpen, handleLogClose }) {
     if (formData.email && formData.password) {
       try {
         const { data } = await axios.post('api/auth/login/', formData)
-        console.log(data.token)
         setTokenToLocalStorage(data.token)
 
         handleLogClose()

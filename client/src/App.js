@@ -5,9 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 //Components
 import NavBar from './components/common/NavBar'
 import Home from './components/Home'
-import Login from './components/auth/Login'
-import Register from './components/auth/Register'
-import MapBox from './components/MapBox'
+import Journeys from './components/Journeys'
+
 
 import Box from '@mui/material/Box'
 
@@ -27,7 +26,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
 
-          <Route path='/register' element={<Register />} />
+          <Route path='/myjourneys' element={<Journeys />} />
          
 
         </Routes>

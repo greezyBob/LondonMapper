@@ -18,6 +18,8 @@ import { userIsAuthenticated } from '../helpers/auth.js'
 const NavBar = () => {
   const navigate = useNavigate()
 
+  
+
   const [logOpen, setLogOpen] = useState(false)
   const handleLogOpen = () => setLogOpen(true)
   const handleLogClose = () => setLogOpen(false)
@@ -29,6 +31,11 @@ const NavBar = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('londonmapper')
     navigate('/')
+    
+  }
+
+  const handleNavigate = () => {
+    navigate('/myjourneys')
   }
 
   return (
@@ -46,11 +53,11 @@ const NavBar = () => {
               <MenuIcon />
             </IconButton>
             <Typography as={Link} to='/' variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              FoodMapper
+              LondonMapper
             </Typography>
             {userIsAuthenticated() ?
               <>
-                <Button color='inherit'>My Journeys</Button>
+                <Button onClick={handleNavigate} color='inherit'>My Journeys</Button>
                 <Button onClick={handleLogout} color='inherit'>Logout</Button>
               </>
               :

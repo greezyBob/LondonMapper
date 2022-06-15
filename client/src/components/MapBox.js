@@ -38,7 +38,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
   })
 
 
-  if (parseInt(journeyHover)) {
+  if (journeyHover) {
     journeys[journeyHover].legs.forEach(leg => {
       const line = JSON.parse(leg.path.lineString)
       const reverseLine = line.map(coords => coords.reverse())
@@ -47,7 +47,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
   }
 
   useEffect(() => {
-    if (!journeyHover || !parseInt(journeyHover)) return
+    if (!journeyHover) return
     for (const [key, value] of Object.entries(map.current.style._layers)) {
       parseFloat(key) ? map.current.removeLayer(value.id) : null
     }

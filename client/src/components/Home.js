@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { getTokenFromLocalStorage, userIsAuthenticated } from './helpers/auth'
 import axios from 'axios'
 import mapboxgl from '!mapbox-gl'
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API
@@ -12,17 +13,26 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import Divider from '@mui/material/Divider'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
-
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import AddIcon from '@mui/icons-material/Add'
 import CircleIcon from '@mui/icons-material/Circle'
+import IconButton from '@mui/material/IconButton'
+import DoneIcon from '@mui/icons-material/Done'
 
+
+import bus from '../styles/images/bus.png'
+import walking from '../styles/images/walking.png'
+import tube from '../styles/images/tube.png'
+import nationalRail from '../styles/images/national-rail.png'
+import { indigo } from '@mui/material/colors'
 
 
 
@@ -31,7 +41,14 @@ import CircleIcon from '@mui/icons-material/Circle'
 
 const Home = () => {
 
-
+  const icons = {
+    bus: bus,
+    walking: walking,
+    tube: tube,
+    'national-rail': nationalRail,
+    overground: tube,
+    dlr: tube,
+  }
 
   //start location seatch state
   const [startSearch, setStartSearch] = useState('')
@@ -47,7 +64,7 @@ const Home = () => {
   const [endArray, setEndArray] = useState()
   const [endCoords, setEndCoords] = useState()
 
- 
+
   const [mapBounds, setMapBounds] = useState()
 
 
@@ -55,6 +72,10 @@ const Home = () => {
 
   //tfl state
   const [journeys, setJourneys] = useState()
+
+  
+
+
 
   //start location use effect
   useEffect(() => {
@@ -126,11 +147,41 @@ const Home = () => {
 
 
   const handleMouseOver = (e) => {
-    setJourneyHover(e.target.id)
+    setJourneyHover(e.currentTarget.id)
+  }
+
+  const [clickIcon, setClickedIcon] = useState(false)
+
+  const handleIconClick = async (e) => {
+    const ind = e.currentTarget.value
+    const legArray = []
+    const modeArray = []
+    journeys[ind].legs.forEach(item => {
+      legArray.push(item.instruction.summary) 
+      modeArray.push(item.mode.id)
+    })
+    const journeyData = {
+      start: startLocation.slice(0, startLocation.indexOf(',')),
+      end: endLocation.slice(0, endLocation.indexOf(',')),
+      duration: journeys[ind].duration,
+      cost: journeys[ind].fare.totalCost,
+      legs: [...legArray],
+      modes: [...modeArray],
+    }
+    // try {
+    //   await axios.post('/api/myjourneys/', journeyData, {
+    //     headers: {
+    //       Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+    //     },
+    //   })
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    // e.currentTarget.classList.add('Mui-disabled')
   }
 
   return (
-    <Container maxWidth='lg' sx={{ mt: 7 }}>
+    <Container sx={{ mt: 7 }}>
       <Box sx={{ display: 'flex' }}>
         <Box mr={1} >
           <Stack direction="row" spacing={2} mb={1}>
@@ -140,7 +191,7 @@ const Home = () => {
                 onChange={(event, newValue) => {
                   setStartLocation(newValue)
                 }}
-                disablePortal                
+                disablePortal
                 options={startLocationOptions}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} value={startSearch} onChange={handleStartChange} label="Start..." />}
@@ -152,7 +203,7 @@ const Home = () => {
                 onChange={(event, newValue) => {
                   setEndLocation(newValue)
                 }}
-                disablePortal                
+                disablePortal
                 options={endLocationOptions}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} value={endSearch} onChange={handleEndChange} label="End..." />}
@@ -165,14 +216,14 @@ const Home = () => {
           <MapBox journeys={journeys} journeyHover={journeyHover} mapBounds={mapBounds} />
         </Box>
         <Stack justifyContent="flex-start" sx={{ width: '100%' }}
-          spacing={1}>
+          spacing={2}>
           {journeys && journeys.map((journey, index) => {
             return (
-              <Accordion key={index} sx={{ p: 1 }} id={index} onMouseEnter={e => handleMouseOver(e)}>
+              <Accordion key={index} id={index}
+                onMouseEnter={e => handleMouseOver(e)}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
-                  id="panel1a-header"
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }} >
                     <Typography sx={{ fontWeight: 600, fontSize: 20 }}>
@@ -185,26 +236,23 @@ const Home = () => {
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Stack direction='row' alignItems='center' spacing={1}>
+                  <List dense>
                     {journey.legs.map((leg, i) => {
                       return (
-                        <Box key={uuidv4()} display='flex'>
-                          <Typography className={leg.mode.name}>.
-                          </Typography>
-                          {i + 1 !== journey.legs.length && <ArrowRightAltIcon sx={{ ml: 1 }} />}
-                        </Box>
+                        <ListItem key={uuidv4()} >
+                          <ListItemIcon>
+                            <Box as='img' src={icons[leg.mode.id]} />
+                          </ListItemIcon>
+                          <ListItemText primary={`${leg.instruction.summary} (${leg.duration} mins)`} />
+                        </ListItem>
                       )
                     })}
-                  </Stack>
-                  <ol>
-                    <Typography>
-                      {journey.legs.map((leg, i) => {
-                        return (
-                          <li key={uuidv4()}>{leg.instruction.summary}</li>
-                        )
-                      })}
-                    </Typography>
-                  </ol>
+                  </List>
+                  {userIsAuthenticated() ?
+                    <IconButton value={index} onClick={(e) => handleIconClick(e)} sx={{ float: 'right' }}>
+                      <AddIcon />
+                    </IconButton>
+                    : null}
                 </AccordionDetails>
               </Accordion>
             )
