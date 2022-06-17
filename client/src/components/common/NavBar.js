@@ -71,16 +71,12 @@ const NavBar = () => {
                 <Button onClick={handleRegOpen} color="inherit">Register</Button>
                 <Button onClick={handleLogOpen} color="inherit">Login</Button>
               </>
-
             }
-
           </Toolbar>
         </AppBar>
       </Box>
-      <Box bgcolor='background.default' sx={{ background: 'black' }} >
-        <Login logOpen={logOpen} handleLogClose={handleLogClose} />
-        <Register regOpen={regOpen} handleRegClose={handleRegClose} />
-      </Box>
+      <Login logOpen={logOpen} handleLogClose={handleLogClose} />
+      <Register regOpen={regOpen} handleRegClose={handleRegClose} />
     </>
   )
 }
