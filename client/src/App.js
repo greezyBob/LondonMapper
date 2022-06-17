@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 
@@ -16,9 +16,6 @@ import Box from '@mui/material/Box'
 
 
 const App = () => {
-
-
-
 
   return (
     <Box sx={{ height: '100%' }}>
