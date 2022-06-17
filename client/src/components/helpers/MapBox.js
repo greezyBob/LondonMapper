@@ -11,14 +11,25 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
   const lineData = []
 
   const lineColours = {
-    'walking': '#90be6d',
-    'tube': '#577590',
-    'bus': '#f94144',
+    'walking': '#727070',
+    'tube': '#000000',
+    'bus': '#cc3232',
     'national-rail': '#cb997e',
     'tflrail': '#577590',
     'dlr': '#219ebc',
-    'tram': '#023047',
-    'overground': '#577590',
+    'tram': '#65cc01',
+    'overground': '#e7690f',
+  }
+
+  const lineDash = {
+    'walking': [1,2],
+    'tube': [],
+    'bus': [],
+    'national-rail': [],
+    'tflrail': [],
+    'dlr': [],
+    'tram': [],
+    'overground': [],
   }
 
   const mapContainer = useRef(null)
@@ -78,6 +89,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
           'line-color': lineColours[journeys[journeyHover].legs[i].mode.id],
           'line-width': 6,
           'line-opacity': 0.8,
+          'line-dasharray': lineDash[journeys[journeyHover].legs[i].mode.id],
         },
       })
     })
@@ -96,8 +108,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
 
   return (
 
-    <div ref={mapContainer} className="map-container">
-    </div>
+    <div ref={mapContainer} className="map-container"></div>
 
   )
 }

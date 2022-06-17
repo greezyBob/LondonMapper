@@ -10,6 +10,7 @@ class Journey(models.Model):
   cost = models.PositiveIntegerField(default=None)
   legs =  models.JSONField(default=None)
   modes = models.JSONField(default=None)
+  times = models.JSONField(default=None)
   owner = models.ForeignKey(
     'jwt_auth.User',
     related_name='journeys',

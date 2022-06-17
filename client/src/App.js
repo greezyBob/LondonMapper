@@ -14,13 +14,14 @@ import Box from '@mui/material/Box'
 
 
 
+
 const App = () => {
 
-  
+
 
 
   return (
-    <Box>
+    <Box sx={{ height: '100%' }}>
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -32,7 +33,6 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </Box>
-
   )
 }
 

@@ -72,8 +72,8 @@ export default function Login({ logOpen, handleLogClose }) {
 
 
   return (
-    <>
-      <Modal
+    <Box >
+      <Modal overlayStyle={{ backgroundColor: 'red' }}
         open={logOpen}
         onClose={handleLogClose}
         aria-labelledby="modal-modal-title"
@@ -131,6 +131,6 @@ export default function Login({ logOpen, handleLogClose }) {
           </Box>
         </Box>
       </Modal>
-    </>
+    </Box>
   )
 }

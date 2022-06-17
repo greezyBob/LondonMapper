@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
- 
+
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
+import Logo from '../../styles/images/mapLogo.png'
 
 import Login from '../auth/Login'
 import Register from '../auth/Register'
@@ -15,10 +15,11 @@ import Register from '../auth/Register'
 //import helpers
 import { userIsAuthenticated } from '../helpers/auth.js'
 
+
 const NavBar = () => {
   const navigate = useNavigate()
 
-  
+
 
   const [logOpen, setLogOpen] = useState(false)
   const handleLogOpen = () => setLogOpen(true)
@@ -31,11 +32,15 @@ const NavBar = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('londonmapper')
     navigate('/')
-    
+
   }
 
   const handleNavigate = () => {
     navigate('/myjourneys')
+  }
+
+  const handleNavigateHome = () => {
+    navigate('/')
   }
 
   return (
@@ -49,8 +54,9 @@ const NavBar = () => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              onClick={handleNavigateHome}
             >
-              <MenuIcon />
+              <Box as='img' src={Logo} />
             </IconButton>
             <Typography as={Link} to='/' variant="h6" component="div" sx={{ flexGrow: 1 }}>
               LondonMapper
@@ -71,8 +77,10 @@ const NavBar = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <Login logOpen={logOpen} handleLogClose={handleLogClose} />
-      <Register regOpen={regOpen} handleRegClose={handleRegClose} />
+      <Box bgcolor='background.default' sx={{ background: 'black' }} >
+        <Login logOpen={logOpen} handleLogClose={handleLogClose} />
+        <Register regOpen={regOpen} handleRegClose={handleRegClose} />
+      </Box>
     </>
   )
 }
