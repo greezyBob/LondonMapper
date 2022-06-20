@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import TextField from '@mui/material/TextField'
+import { cyan, red } from '@mui/material/colors'
 
 
 const style = {
@@ -27,7 +28,7 @@ const style = {
   borderRadius: '25px',
 }
 
-export default function Login({ logOpen, handleLogClose }) {
+export default function Login({ logOpen, handleLogOpen, setLogOpen, handleLogClose, setRegOpen }) {
 
 
   const navigate = useNavigate()
@@ -70,9 +71,15 @@ export default function Login({ logOpen, handleLogClose }) {
     setErrors(false)
   }
 
+  const handleSwap = () => {
+    setLogOpen(false)
+    setRegOpen(true)
+  }
+
 
   return (
     <Box >
+      <Button onClick={handleLogOpen} color="inherit">Login</Button>
       <Modal
         open={logOpen}
         onClose={handleLogClose}
@@ -129,6 +136,7 @@ export default function Login({ logOpen, handleLogClose }) {
               Sign In
             </Button>
           </Box>
+          <Typography sx={{ color: '#3bbde7', '&:hover': { cursor: 'pointer', textDecoration: 'underline' } }} onClick={handleSwap}>Need an account? Register here!</Typography>
         </Box>
       </Modal>
     </Box>
