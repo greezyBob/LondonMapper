@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import TextField from '@mui/material/TextField'
 
 
-const Register = ({ regOpen, handleRegClose }) => {
+const Register = ({ regOpen, handleRegOpen, setRegOpen, handleRegClose, setLogOpen }) => {
 
   const style = {
     position: 'absolute',
@@ -61,8 +61,14 @@ const Register = ({ regOpen, handleRegClose }) => {
     }
   }
 
+  const handleSwap = () => {
+    setLogOpen(true)
+    setRegOpen(false)
+  }
+
   return (
     <>
+      <Button onClick={handleRegOpen} color="inherit">Register</Button>
       <Modal
         open={regOpen}
         onClose={handleRegClose}
@@ -141,6 +147,7 @@ const Register = ({ regOpen, handleRegClose }) => {
               Register
             </Button>
           </Box>
+          <Typography sx={{ color: '#3bbde7', '&:hover': { cursor: 'pointer', textDecoration: 'underline' } }} onClick={handleSwap}>Already have an account? Login!</Typography>
         </Box>
       </Modal>
     </>
