@@ -46,7 +46,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
       center: [lng, lat],
       zoom: zoom,
     })
-  })
+  }, [])
 
 
   if (journeyHover) {
