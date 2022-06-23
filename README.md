@@ -56,8 +56,8 @@ Users can save journeys and view them in the My Journyes tab if they are logged 
 ---
 ## Screenshots
 ---
-![Homepage]()
-![My Journeys]()
+![Homepage](./client/src/styles/images/londonmapperhome.png)
+![My Journeys](./client/src/styles/images/myjourneyspic.png)
 
 
 
