@@ -43,7 +43,7 @@ In the beginning I brainstormed different ideas that met the requirements. I dec
 
 I began by making the authentication functionality on the back-end using django and jwt. After setting up custom user authentication I swapped over to the front-end.
 
-### Searching
+#### Searching
 I wanted my search to support multiple types of search queries: places, postcodes etc. This is to make it as user-friendly as possible, and to enable users to search for their own home address, or search for the name of a restaurant or pub for example. To do this, I used the mapbox autocomplete api and send requests on every input by the user. Additionally I had to maintain the state of the array of choices in my autocomplete the user input and the final choice selected by the user. This had to be done for both the journey start and end locations.
 
 ```
@@ -62,7 +62,7 @@ useEffect(() => {
   }
 ```
 
-### Mapping the Journey
+#### Mapping the Journey
 When a user selects a search result, the latitude and longitude of the location is used to make a query to the TfL API, and displays the options for travel on the search page. When a journey is selected, the journey's legs and modes are plotted onto the map, which can be scrolled and interacted with. The legs are coloured according to mode, and the steps are shown in the accordions to the right of the map. In order to achieve the fluid hover effect I had to loop over the map.current object and remove previously added layers and then add layers for the currently selected journey.
 ```
 useEffect(() => {
@@ -105,7 +105,7 @@ useEffect(() => {
 
 ```
 
-### Save Journeys
+#### Save Journeys
 After completing the main frontend functionality of searching for journeys and mapping them on mapbox I began creating the model and views to dave a journey in the backend. In my journey model I used the JSONfield option in Django to store an array of each of the legs. On the frontend users are able to save specific journeys and view them in the My Journeys page.
 
 
