@@ -64,9 +64,49 @@ useEffect(() => {
 
 ### Mapping the Journey
 When a user selects a search result, the latitude and longitude of the location is used to make a query to the TfL API, and displays the options for travel on the search page. When a journey is selected, the journey's legs and modes are plotted onto the map, which can be scrolled and interacted with. The legs are coloured according to mode, and the steps are shown in the accordions to the right of the map. In order to achieve the fluid hover effect I had to loop over the map.current object and remove previously added layers and then add layers for the currently selected journey.
+```
+useEffect(() => {
+    if (!journeyHover) return
+    for (const [key, value] of Object.entries(map.current.style._layers)) {
+      parseFloat(key) ? map.current.removeLayer(value.id) : null
+    }
+    lineData.forEach((points, i) => {
+      if (map.current.getSource(points[0][0])) {
+        map.current.removeSource(points[0][0])
+      }
+      map.current.addSource(points[0][0], {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': points,
+          },
+        },
+      })
+      map.current.addLayer({
+        'id': `${points[0][0]}`,
+        'type': 'line',
+        'source': `${points[0][0]}`,
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round',
+        },
+        'paint': {
+          'line-color': lineColours[journeys[journeyHover].legs[i].mode.id],
+          'line-width': 6,
+          'line-opacity': 0.8,
+          'line-dasharray': lineDash[journeys[journeyHover].legs[i].mode.id],
+        },
+      })
+    })
+  }, [journeyHover])
+
+```
 
 ### Save Journeys
-Users can save journeys and view them in the My Journeys tab if they are logged in.
+After completing the main frontend functionality of searching for journeys and mapping them on mapbox I began creating the model and views to dave a journey in the backend. In my journey model I used the JSONfield option in Django to store an array of each of the legs. On the frontend users are able to save specific journeys and view them in the My Journeys page.
 
 
 ---
@@ -77,8 +117,10 @@ Users can save journeys and view them in the My Journeys tab if they are logged 
 
 
 
-## Challenges
+## Challenges/Wins
 
 ### Multiple API's
 TFL and mapbox api had different formats for how the data needed to be sent. I had to normalise the data before making each query. Additoinally I had not used mapbox before and had to quickly figure out how it could be used in a React app.
 
+## Key Learnings
+This project required me to use lots of documentation for both the apis. I had to use the examples I found as a foundation upon which I could add to as there were often differences between the effect I wanted to achieve and what was shown.
