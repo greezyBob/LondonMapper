@@ -322,15 +322,4 @@ const Home = () => {
   )
 }
 
-const lineColours = {
-  'walking': '#606c38',
-  'tube': '#577590',
-  'bus': '#f94144',
-  'national-rail': '#cb997e',
-  'tflrail': '#577590',
-  'dlr': '#219ebc',
-  'tram': '#023047',
-  'overground': '#577590',
-}
-
 export default Home
