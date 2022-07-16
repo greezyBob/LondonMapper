@@ -126,6 +126,7 @@ const Home = () => {
     getData()
   }, [startCoords, endCoords])
 
+  //convert mapbox data to appropriate format and send to tfl api
   const handleBtnClick = () => {
     if (!endLocation || !startLocation) return
     let startLng
@@ -152,13 +153,14 @@ const Home = () => {
     setMapBounds(tempBounds)
   }
 
-
+  // change which journey is being selected which is then passed to mapbox component
   const handleMouseOver = (e) => {
     setJourneyHover(e.currentTarget.id)
   }
 
   const [clickIcon, setClickedIcon] = useState(false)
 
+  //save journey - manipulate data to correct format to send to backend model
   const handleIconClick = async (e) => {
     const ind = e.currentTarget.value
     const legArray = []
@@ -192,6 +194,7 @@ const Home = () => {
 
   }
 
+  //animations
   const container = {
     show: {
       transition: {

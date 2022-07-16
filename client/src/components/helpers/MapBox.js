@@ -48,7 +48,7 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
     })
   }, [])
 
-
+  // change coords order from tfl (lat, lng) to mapbox (lng, lat)
   if (journeyHover) {
     journeys[journeyHover].legs.forEach(leg => {
       const line = JSON.parse(leg.path.lineString)
@@ -57,6 +57,8 @@ const MapBox = ({ journeys, journeyHover, mapBounds }) => {
     })
   }
 
+  //change journey being mapped in the mapbox 
+  //remove all layers related to the journey and apply new layers
   useEffect(() => {
     if (!journeyHover) return
     for (const [key, value] of Object.entries(map.current.style._layers)) {

@@ -4,50 +4,38 @@ import Typography from '@mui/material/Typography'
 
 const Key = () => {
 
+  const modes = [
+    'Walking',
+    'Tube',
+    'Bus',
+    'Overground',
+    'DLR',
+    'National Rail',
+    'Tram'
+  ]
+
+  const colors = [
+    '#606c38',
+    '#577590',
+    '#f94144',
+    '#577590',
+    '#219ebc',
+    '#cb997e',
+    '#023047'
+  ]
+
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#727070', mr: 1 }} />
-        <Typography>
-          Walking
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#000000', mr: 1 }} />
-        <Typography>
-          Tube
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#cc3232', mr: 1 }} />
-        <Typography>
-          Bus
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#e7690f', mr: 1 }} />
-        <Typography>
-          Overground
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#219ebc', mr: 1 }} />
-        <Typography>
-          DLR
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#cb997e', mr: 1 }} />
-        <Typography>
-          National Rail
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
-        <Box sx={{ height: '15px', width: '15px', background: '#65cc01', mr: 1 }} />
-        <Typography>
-          Tram
-        </Typography>
-      </Box>
+      {modes.map((mode, i) => {
+        return (
+          <Box key={i} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: 1 }}>
+            <Box sx={{ height: '15px', width: '15px', background: [colors[i]], mr: 1 }} />
+            <Typography>
+              {mode}
+            </Typography>
+          </Box>
+        )
+      })}
     </>
   )
 }
