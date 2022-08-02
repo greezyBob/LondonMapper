@@ -26,6 +26,7 @@ You can find the deployed version of the project [here](https://london-mapper.he
 * PostgreSQL
 * React & React Router
 * Material UI (MUI)
+* Framer Motion
 * HTML5, CSS3, and SASS
 * Axios
 * VSCode
