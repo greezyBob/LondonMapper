@@ -47,7 +47,7 @@ I began by making the authentication functionality on the back-end using django 
 #### Searching
 I wanted my search to support multiple types of search queries: places, postcodes etc. This is to make it as user-friendly as possible, and to enable users to search for their own home address, or search for the name of a restaurant or pub for example. To do this, I used the mapbox autocomplete api and send requests on every input by the user. Additionally I had to maintain the state of the array of choices in my autocomplete the user input and the final choice selected by the user. This had to be done for both the journey start and end locations.
 
-```
+```js
 useEffect(() => {
     const getData = async () => {
       const { data } = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${startSearch}.json?type=poi&bbox=-0.5094,51.2744,0.2643,51.7026&access_token=${mapboxgl.accessToken}`)
@@ -65,7 +65,7 @@ useEffect(() => {
 
 #### Mapping the Journey
 When a user selects a search result, the latitude and longitude of the location is used to make a query to the TfL API, and displays the options for travel on the search page. When a journey is selected, the journey's legs and modes are plotted onto the map, which can be scrolled and interacted with. The legs are coloured according to mode, and the steps are shown in the accordions to the right of the map. In order to achieve the fluid hover effect I had to loop over the map.current object and remove previously added layers and then add layers for the currently selected journey.
-```
+```js
 useEffect(() => {
     if (!journeyHover) return
     for (const [key, value] of Object.entries(map.current.style._layers)) {
